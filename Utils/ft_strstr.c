@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:28:25 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/07 15:04:55 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/08 14:36:19 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	size_t	i;
 	int		j;
 	char	*check;
-	
+
 	i = 0;
 	check = 0;
 	if (needle[i] == '\0')

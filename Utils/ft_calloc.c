@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/05 16:50:23 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/08 18:13:34 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/08 17:40:16 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/08 17:40:32 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	main(void)
-{	
-	t_parse	parse;
+void	*ft_calloc(size_t count, size_t size)
+{
+	unsigned char	*c;
+	size_t			i;
 
-	parse.token = malloc(sizeof(t_parse));
-	parse.env = getenv("PATH");
-	while (1)
-	{
-		parse.input = readline("Minishell$ > ");
-		lexing(&parse);
-	}
-	return (0);
+	i = 0;
+	c = malloc(size * count);
+	if (c == NULL)
+		return (NULL);
+	while (i < size * count)
+		c[i++] = '\0';
+	return ((void *)c);
 }

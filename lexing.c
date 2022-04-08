@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:35:32 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/07 17:49:28 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/08 17:05:42 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	lexing(t_parse *parse)
 {
-	parse->cmdsplit = splitinput(parse);
+	fuckwhitespace(parse);
 }

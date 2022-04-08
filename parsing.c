@@ -6,46 +6,74 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:00:28 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/07 18:25:33 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/08 18:39:40 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**args(char **str)
+char	*whitespace(char *str)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	str = malloc((ft_strlen(*str) + 1) * sizeof(char *));
-	while (str[i][j])
-	{
-		if ()
+	while (str[i] == ' ' || str[i] == '\t'
+		|| str[i] == '\n')
 		i++;
-	}
-	return (str);
+	return (&str[i]);
 }
-
-char	**splitinput(t_parse *parse)
+//! COMMANDE RECUPERER, GESTION DE FLAG A FAIRE
+void	splitinput(t_parse *parse)
 {
 	int		i;
-	char	**str;
 	int		j;
-
+	
+	parse->token->cmd = ft_calloc(ft_strlen(parse->token->input) + 1, sizeof(char));
 	j = 0;
 	i = 0;
-	str = &parse->input;
-	while (str[i][j] == ' ' || str[i][j] == '\t'
-	|| str[i][j] == '\n')
-		j++;
-	parse->cmdsplit = args(str);
-	i = 0;
-	while (i < 20)
+	while (parse->token->input[i] != ' ' && parse->token->input[i] != '\0')
 	{
-		printf("%s\n", str[i]);
+		parse->token->cmd[j] = parse->token->input[i];
 		i++;
+		j++;
 	}
-	return (str);
+	parse->token->cmd[j] = '\0';
+	// while (parse->token->input[i])
+	// {
+	// 	if (parse->token->input[i] == '-' && parse->token->input[i + 1] != ' ')
+	// 		ft_get_flags(&parse[i]);
+	// 	i++;
+	// }
+}
+
+//* Enlève les espaces en trop et prend la string jusqu'à croisé un commentaire
+void	fuckwhitespace(t_parse *parse)
+{
+	int		i;
+	char	*str;
+	int		j;
+	char	*cmd;
+
+	i = 0;
+	j = 0;
+	cmd = ft_calloc(ft_strlen(parse->input) + 1, sizeof(char));
+	str = malloc(((ft_strlen(parse->input) + 1) * sizeof(char)));
+	str = parse->input;
+	if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+		str = whitespace(str);
+	while (str[i] != '\0' && str[i] != '#')
+	{
+		cmd[j] = str[i];
+		i++;
+		j++;
+		if (str[i - 1] == ' ')
+		{
+			while (str[i] == ' ')
+				i++;
+			cmd[j] = ' ';
+		}
+	}
+	cmd[j] = '\0';
+	parse->token->input = cmd;
+	splitinput(parse);
 }

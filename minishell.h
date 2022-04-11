@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:52:21 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/08 18:10:29 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/11 16:02:46 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_token
 	char	*input;
 	char	*cmd;
 	char	*flag;
+	char	*files;
 	char	*sep;
 	char	*cmd2;
 	char	*flag2;

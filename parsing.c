@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:00:28 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/11 16:30:17 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/11 17:13:42 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_get_files(char *str)
 	int		j;
 
 	files = ft_calloc(ft_strlen(str) + 1, sizeof(char));
-	i = 0;
+	i = 1;
 	j = 0;
 	while (str[i] && str[i] != '|')
 	{
@@ -50,7 +50,7 @@ char	*ft_get_flags(char *str, t_parse *parse)
 	int		j;
 
 	flag = ft_calloc(ft_strlen(str) + 1, sizeof(char));
-	i = 0;
+	i = 1;
 	j = 0;
 	while (str[i] && str[i] != '|')
 	{
@@ -93,7 +93,6 @@ void	splitinput(t_parse *parse)
 	}
 	parse->token->cmd[j] = '\0';
 	printf("Cmd -> %s\n", parse->token->cmd);
-	i++;
 	if (parse->token->input[i] != '-'
 		|| (parse->token->input[i] == '-' && parse->token->input[i + 1] == ' '))
 		parse->token->files = ft_get_files(&parse->token->input[i]);

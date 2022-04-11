@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:50:23 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/08 18:13:34 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/11 18:51:29 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ int	main(void)
 	while (1)
 	{
 		parse.input = readline("Minishell$ > ");
+		if (parse.input == NULL)
+			break ;
 		lexing(&parse);
-		add_history(parse.input);
+		if (parse.input[0] != '\0')
+			add_history(parse.input);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:52:21 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/11 16:02:46 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/11 20:33:32 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,13 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*whitespace(char *str);
 void	*ft_calloc(size_t count, size_t size);
 
-void	lexing(t_parse *parse);
+//* **************** Lexing ****************
+char	*ft_get_cmd(char *str);
+char	*ft_get_flags(char *str, t_parse *parse);
+char	*ft_get_files(char *str);
 void	fuckwhitespace(t_parse *parse);
-void	splitinput(t_parse *parse);
+
+void	lexing(t_parse *parse);
+void	splitinput(char *str, t_parse *parse);
 
 #endif

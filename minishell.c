@@ -22,6 +22,7 @@ int	main(void)
 	{
 		parse.input = readline("Minishell$ > ");
 		lexing(&parse);
+		add_history(parse.input);
 	}
 	return (0);
 }

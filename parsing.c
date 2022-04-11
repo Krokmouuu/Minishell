@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:00:28 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/11 17:13:42 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/11 17:43:49 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_get_files(char *str)
 	int		j;
 
 	files = ft_calloc(ft_strlen(str) + 1, sizeof(char));
-	i = 1;
+	i = 0;
 	j = 0;
 	while (str[i] && str[i] != '|')
 	{
@@ -50,25 +50,22 @@ char	*ft_get_flags(char *str, t_parse *parse)
 	int		j;
 
 	flag = ft_calloc(ft_strlen(str) + 1, sizeof(char));
-	i = 1;
+	i = 0;
 	j = 0;
 	while (str[i] && str[i] != '|')
 	{
 		if (str[i] == ' ' && str[i + 1] == '-' && str[i + 2] == ' ')
 		{
-			i++;
-			parse->token->files = ft_get_files(&str[i]);
+			parse->token->files = ft_get_files(&str[++i]);
 			break ;
 		}
-		else if (str[i] == ' ' && str[i + 1] != '-' && str[i + 1] != '\0' && str[i + 1] != '|')
+		else if (str[i] == ' ' && str[i + 1] != '-'
+			&& str[i + 1] != '\0' && str[i + 1] != '|')
 		{
-			i++;
-			parse->token->files = ft_get_files(&str[i]);
+			parse->token->files = ft_get_files(&str[++i]);
 			break ;
 		}
-		flag[j] = str[i];
-		i++;
-		j++;
+		flag[j++] = str[i++];
 	}
 	flag[j] = '\0';
 	printf("Flag -> %s\n", flag);
@@ -93,11 +90,17 @@ void	splitinput(t_parse *parse)
 	}
 	parse->token->cmd[j] = '\0';
 	printf("Cmd -> %s\n", parse->token->cmd);
-	if (parse->token->input[i] != '-'
-		|| (parse->token->input[i] == '-' && parse->token->input[i + 1] == ' '))
-		parse->token->files = ft_get_files(&parse->token->input[i]);
-	else if (parse->token->input[i] == '-' && parse->token->input[i + 1] != ' ')
-		parse->token->flag = ft_get_flags(&parse->token->input[i], parse);
+	if (parse->token->input[i] == ' ')
+	{
+		i++;
+		if (parse->token->input[i] != '-'
+			|| (parse->token->input[i] == '-'
+				&& parse->token->input[i + 1] == ' '))
+			parse->token->files = ft_get_files(&parse->token->input[i]);
+		else if (parse->token->input[i] == '-'
+			&& parse->token->input[i + 1] != ' ')
+			parse->token->flag = ft_get_flags(&parse->token->input[i], parse);
+	}
 }
 
 //* Enlève les espaces en trop et prend la string jusqu'à croisé un commentaire

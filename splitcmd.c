@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 19:20:39 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/11 20:34:00 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/12 13:34:42 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,17 @@ char	*ft_get_flags(char *str, t_parse *parse)
 	j = 0;
 	while (str[i] && str[i] != '|')
 	{
-		if (str[i] == ' ' && str[i + 1] == '-' && str[i + 2] == ' ')
+		if (str[i] == ' ' && str[i] != '\0')
 		{
-			parse->token->files = ft_get_files(&str[++i]);
+			while (str[i + 1] == ' ' && str[i + 1] != '\0')
+				i++;
+		}
+		if ((str[i] == '-' && str[i + 1] == ' ') || (str[i] == '-' && str[i + 1] == '\0'))
+		{
+			parse->token->files = ft_get_files(&str[i]);
 			break ;
 		}
-		else if (str[i] == ' ' && str[i + 1] != '-'
-			&& str[i + 1] != '\0' && str[i + 1] != '|')
+		else if (str[i] == ' ' && str[i + 1] != '-')
 		{
 			parse->token->files = ft_get_files(&str[++i]);
 			break ;
@@ -79,5 +83,6 @@ char	*ft_get_cmd(char *str)
 		j++;
 	}
 	cmd[j] = '\0';
+	printf("Cmd -> %s\n", cmd);
 	return (cmd);
 }

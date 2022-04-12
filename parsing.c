@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:00:28 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/11 20:33:52 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/12 12:37:27 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,16 @@ void	splitinput(char *str, t_parse *parse)
 	j = 0;
 	i = 0;
 	parse->token->cmd = ft_get_cmd(str);
-	printf("Cmd -> %s\n", parse->token->cmd);
 	while (str[i] != ' ' && str[i] != '\0')
 		i++;
-	if (str[i] == ' ')
-	{
+	while (str[i] == ' ' && str[i] != '\0')
 		i++;
-		if (str[i] != '-' || ((str[i] == '-' && str[i + 1] == ' ')
-				&& str[i] != '\0'))
-			parse->token->files = ft_get_files(&str[i]);
-		else if (str[i] == '-'
-			&& str[i + 1] != ' ' && str[i] != '\0')
-			parse->token->flag = ft_get_flags(&str[i], parse);
-	}
+	if (str[i] == '-'
+		&& str[i + 1] != ' ' && str[i] != '\0')
+		parse->token->flag = ft_get_flags(&str[i], parse);
+	else if (str[i] != '-' || ((str[i] == '-' && str[i + 1] == ' ')
+			&& str[i] != '\0'))
+		parse->token->files = ft_get_files(&str[i]);
 }
 
 //* Enlève les espaces en trop et prend la string jusqu'à croisé un commentaire
@@ -65,15 +62,7 @@ void	fuckwhitespace(t_parse *parse)
 	if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
 		str = whitespace(str);
 	while (str[i] != '\0' && str[i] != '#')
-	{
 		cmd[j++] = str[i++];
-		if (str[i - 1] == ' ')
-		{
-			while (str[i] == ' ')
-				i++;
-			cmd[j] = ' ';
-		}
-	}
 	cmd[j] = '\0';
 	parse->token->input = cmd;
 }

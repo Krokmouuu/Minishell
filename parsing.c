@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:00:28 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/12 12:37:27 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/12 14:45:17 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ void	splitinput(char *str, t_parse *parse)
 	else if (str[i] != '-' || ((str[i] == '-' && str[i + 1] == ' ')
 			&& str[i] != '\0'))
 		parse->token->files = ft_get_files(&str[i]);
+	else
+	{
+		parse->token->flag = ft_strdup("");
+		parse->token->files = ft_strdup("");
+	}
 }
 
 //* Enlève les espaces en trop et prend la string jusqu'à croisé un commentaire

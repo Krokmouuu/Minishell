@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:35:32 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/12 14:09:30 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/12 14:58:29 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,8 @@ void	lexing(t_parse *parse)
 		i++;
 	}
 	checkcmd(parse);
+	// printf("Cmd -> %s\n", parse->token->cmd);
+	// printf("Flag -> %s\n", parse->token->flag);
+	// printf("Files -> %s\n", parse->token->files);
+
 }

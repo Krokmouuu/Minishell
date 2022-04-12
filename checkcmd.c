@@ -40,7 +40,12 @@ int ft_echo(t_parse *parse)
     int i;
 
     i = 0;
-    if (parse->token->flag != NULL)
+   if (parse->token->flag == NULL)
+    {
+        i++;
+       printf("%s", parse->token->flag);
+    }
+    else
     {
         i++;
         printf("%s", parse->token->flag);
@@ -48,17 +53,17 @@ int ft_echo(t_parse *parse)
     if (parse->token->files != NULL)
     {
         if (i > 0)
-            printf(" ");
-        printf("%s", parse->token->files);
+           printf(" ");
+       printf("%s", parse->token->files);
         free(parse->token->files);
     }
     i = 0;
-    if (strcmp(parse->token->flag, "-n") == 0)
-    {
-        free(parse->token->flag);
-        return (1);
-    }
-    printf("\n");
+   if (strcmp(parse->token->flag, "-n") == 0)
+   {
+       free(parse->token->flag);
+       return (1);
+   }
+   printf("\n");
     return (0);
 }
 int checkcmd(t_parse *parse)
@@ -70,7 +75,7 @@ int checkcmd(t_parse *parse)
     n = 0;
     i = 0;
     if (strcmp(parse->token->cmd, "echo") == 0)
-        ft_echo(parse);
+       ft_echo(parse);
     if (strcmp(parse->token->cmd, "env") == 0)
     {
         while (parse->env[i])

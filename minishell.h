@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:52:21 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/11 20:33:32 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/12 14:09:59 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ void	fuckwhitespace(t_parse *parse);
 
 void	lexing(t_parse *parse);
 void	splitinput(char *str, t_parse *parse);
+
+int checkcmd(t_parse *parse);
 
 #endif

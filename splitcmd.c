@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 19:20:39 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/12 13:34:42 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/12 14:07:52 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*ft_get_files(char *str)
 		i++;
 		j++;
 	}
+	if (str[0] == '\0')
+		return (ft_strdup(""));
 	files[j] = '\0';
 	printf("Files -> %s\n", files);
 	return (files);
@@ -60,6 +62,8 @@ char	*ft_get_flags(char *str, t_parse *parse)
 		}
 		flag[j++] = str[i++];
 	}
+	if (str[0] == '\0')
+		return (ft_strdup(""));
 	flag[j] = '\0';
 	printf("Flag -> %s\n", flag);
 	return (flag);
@@ -82,6 +86,8 @@ char	*ft_get_cmd(char *str)
 		i++;
 		j++;
 	}
+	if (str[0] == '\0')
+		return (ft_strdup(""));
 	cmd[j] = '\0';
 	printf("Cmd -> %s\n", cmd);
 	return (cmd);

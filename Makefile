@@ -15,8 +15,12 @@ SRCS = minishell.c \
 	   Utils/ft_split.c \
 	   Utils/ft_strlen.c \
 	   Utils/ft_calloc.c \
+	   Utils/ft_strdup.c \
+	   Utils/ft_substr.c \
+	   Utils/ft_strjoin.c \
 	   lexing.c \
 	   parsing.c \
+	   checkcmd.c \
 
 OBJS = ${SRCS:.c=.o}
 

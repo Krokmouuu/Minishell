@@ -15,4 +15,5 @@
 void	lexing(t_parse *parse)
 {
 	fuckwhitespace(parse);
+	checkcmd(parse);
 }

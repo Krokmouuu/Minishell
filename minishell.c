@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {	
 	t_parse	parse;
 
+	(void)argc;
+	(void)argv;
 	parse.token = malloc(sizeof(t_parse));
-	parse.env = getenv("PATH");
+	parse.env = env;
 	while (1)
 	{
 		parse.input = readline("Minishell$ > ");

@@ -6,7 +6,7 @@
 #    By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 16:53:35 by bleroy            #+#    #+#              #
-#    Updated: 2022/04/08 17:40:58 by bleroy           ###   ########.fr        #
+#    Updated: 2022/04/11 19:27:26 by bleroy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS = minishell.c \
 	   Utils/ft_strjoin.c \
 	   lexing.c \
 	   parsing.c \
-	   checkcmd.c \
+	   splitcmd.c \
 
 OBJS = ${SRCS:.c=.o}
 

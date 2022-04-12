@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:52:21 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/11 16:02:46 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/11 20:33:32 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *c);
 char	*ft_strjoin(char const *s1, char const *s2, int n);
 
-void	lexing(t_parse *parse);
+//* **************** Lexing ****************
+char	*ft_get_cmd(char *str);
+char	*ft_get_flags(char *str, t_parse *parse);
+char	*ft_get_files(char *str);
 void	fuckwhitespace(t_parse *parse);
-void	splitinput(t_parse *parse);
-int 	checkcmd(t_parse *parse);
-char	*ft_find(char **env, char *str);
 
+void	lexing(t_parse *parse);
+void	splitinput(char *str, t_parse *parse);
 
 #endif

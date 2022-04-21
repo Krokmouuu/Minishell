@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/13 13:20:41 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/14 13:58:28 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/19 15:00:06 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/19 15:00:07 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strdup(const char *c)
+/*void	export_command(t_token **blist, t_env **list_env)
 {
+	char	*args;
 	int		i;
-	char	*str;
 
-	i = 0;
-	while (c[i])
-		i++;
-	str = malloc(i * sizeof(char) + 1);
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (c[i])
-	{
-		str[i] = c[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
+	i=0;
+	(void) blist;
+	args = ft_strdup("TEST=123");
+	(*list_env)->env_variable[i] = ft_strdup(args);
+}*/

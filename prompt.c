@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/13 13:20:41 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/14 13:58:28 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/13 14:48:21 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/19 15:39:22 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *c)
+void	errorcmd(char *str)
 {
-	int		i;
+	printf("%s\n", str);
+}
+
+void	exitshell(t_token **blist)
+{
+	(void)blist;
+	exit (0);
+}
+
+char	*input(void)
+{
 	char	*str;
 
-	i = 0;
-	while (c[i])
-		i++;
-	str = malloc(i * sizeof(char) + 1);
+	str = readline("Minishell$ 🥵🍆🐇 > ");
 	if (str == NULL)
 		return (NULL);
-	i = 0;
-	while (c[i])
-	{
-		str[i] = c[i];
-		i++;
-	}
-	str[i] = '\0';
+	if (str[0] != '\0')
+		add_history(str);
 	return (str);
 }

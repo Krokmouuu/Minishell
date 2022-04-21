@@ -5,35 +5,70 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/07 14:35:32 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/12 14:58:29 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/13 10:53:09 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/21 19:36:02 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	lexing(t_parse *parse)
+char	*remove_spaces(char *str)
 {
-	int	i;
+	int		i;
+	int		j;
+	int		n;
+	char	*cmd;
 
+	j = 0;
 	i = 0;
-	fuckwhitespace(parse);
-	splitinput(parse->token->input, parse);
-	while (parse->token->input[i] != '\0')
-	{
-		if (parse->token->input[i] == '|')
-		{
-			if (parse->token->input[i + 1] == ' ')
-				i++;
-			while (parse->token->input[i] == ' ')
-				i++;
-			splitinput(&parse->token->input[i], parse);
-		}
+	while (str[i] == ' ')
 		i++;
-	}
-	checkcmd(parse);
-	// printf("Cmd -> %s\n", parse->token->cmd);
-	// printf("Flag -> %s\n", parse->token->flag);
-	// printf("Files -> %s\n", parse->token->files);
+	n = i;
+	while (str[i] != '\0')
+		i++;
+	cmd = ft_calloc(i + 1, 1);
+	while (str[n] != '\0')
+		cmd[j++] = str[n++];
+	cmd[j] = '\0';
+	return (cmd);
+}
 
+void	splitpipe(t_token **blist, char *str)
+{
+	int		i;
+	int		n;
+	t_token	*temp;
+
+	n = 0;
+	i = 0;
+	temp = (*blist);
+	str = remove_spaces(str);
+	while (str[i])
+	{
+		if (str[i] != '|' || str[i] != '\0')
+			i++;
+		if (str[i] == '|' || str[i] == '\0')
+		{
+			temp->cmd = ft_substr(str, n, i - n);
+			temp->type = 1;
+			ft_lstadd_back(temp);
+			temp = temp->next;
+			if (str[i] == '\0')
+				break ;
+			n = i + 1;
+		}
+	}
+	free(str);
+}
+
+void	lexing(t_token **blist, char *str, char **env)
+{
+	char	*uwu;
+
+	uwu = remove_spaces(str);
+	ft_split_all(blist, uwu);
+	builtins(blist, env);
+	(void)env;
+	free (str);
+	free (uwu);
 }

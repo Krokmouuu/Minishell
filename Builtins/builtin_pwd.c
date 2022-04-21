@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-berr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/13 13:20:41 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/14 13:58:28 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/14 11:51:26 by ple-berr          #+#    #+#             */
+/*   Updated: 2022/04/14 11:51:28 by ple-berr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strdup(const char *c)
+void	pwd_command(char **env)
 {
 	int		i;
-	char	*str;
+	char	*pwd;
 
 	i = 0;
-	while (c[i])
-		i++;
-	str = malloc(i * sizeof(char) + 1);
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (c[i])
-	{
-		str[i] = c[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	pwd = NULL;
+	pwd = ft_substr(ft_find(env, "PWD="), 5, \
+		ft_findspace(ft_find(env, "PWD=")) - 4);
+	printf("%s\n", pwd);
+	free(pwd);
 }

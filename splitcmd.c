@@ -5,87 +5,117 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 19:20:39 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/12 14:49:09 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/14 14:31:44 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/21 20:00:15 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_get_files(char *str)
+char	*skip(char *str)
 {
-	char	*files;
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
-	files = ft_calloc(ft_strlen(str) + 1, sizeof(char));
-	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '|')
+	i = helperspace(str, 0);
+	j = i;
+	if (str[i] == '\0')
+		return (ft_strdup(""));
+	else if (str[i] != '-' || (str[i] == '-' && str[i + 1] == '\0'))
+		return (ft_strdup(&str[i]));
+	else
 	{
-		files[j] = str[i];
-		i++;
-		j++;
+		while (str[i])
+		{
+			while (str[i] != ' ' && str[i])
+				i++;
+			while (str[i] == ' ' && str[i])
+				i++;
+			if (str[i] == '-' && str[i])
+				i++;
+			else
+				return (ft_strdup(&str[i]));
+		}
 	}
-	if (str[0] == '\0')
-		return (NULL);
-	files[j] = '\0';
-	return (files);
+	return (NULL);
 }
 
-char	*ft_get_flags(char *str, t_parse *parse)
+char	*ft_get_args(char *str)
 {
-	char	*flag;
+	int	i;
+	int	j;
+
+	i = 0;
+	j = i;
+	if (str[i] == '\0')
+		return (NULL);
+	while (str[i] != '|' && str[i] != '\0')
+		i++;
+	return (ft_substr(str, j, i - j));
+}
+
+char	*ft_get_flags(char *str)
+{
 	int		i;
 	int		j;
 
-	flag = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '|')
-	{
-		if (str[i] == ' ' && str[i] != '\0')
-		{
-			while (str[i + 1] == ' ' && str[i + 1] != '\0')
-				i++;
-		}
-		if ((str[i] == '-' && str[i + 1] == ' ') || (str[i] == '-' && str[i + 1] == '\0'))
-		{
-			parse->token->files = ft_get_files(&str[i]);
-			break ;
-		}
-		else if (str[i] == ' ' && str[i + 1] != '-')
-		{
-			parse->token->files = ft_get_files(&str[++i]);
-			break ;
-		}
-		flag[j++] = str[i++];
-	}
-	if (str[0] == '\0')
+	j = i;
+	if ((str[i] == '-' && str[i + 1] == '\0')
+		|| (str[i] == '-' && str[i + 1] == ' '))
 		return (NULL);
-	flag[j] = '\0';
-	return (flag);
+	if (str[i] != '-' || str[i] == '\0')
+		return (NULL);
+	while (str[i])
+	{
+		i += helperspace(&str[i], 1);
+		if (str[i] != '-' || str[i] == '\0')
+			return (ft_substr(str, j, i - j));
+		if ((str[i] == '-' && str[i + 1] == ' ')
+			|| (str[i] == '-' && str[i + 1] == '\0'))
+			return (ft_substr(str, j, i - j));
+		i += helperspace(&str[i], 2);
+		if (str[i] == '\0')
+			return (ft_substr(str, j, i - j));
+	}
+	return (0);
 }
 
 char	*ft_get_cmd(char *str)
 {
-	char	*cmd;
 	int		i;
 	int		j;
+	char	*test;
 
-	cmd = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	test = ft_calloc(lenwithoutquote(str) + 1, sizeof(char));
 	i = 0;
 	j = 0;
-	while (str[i] == ' ')
-		i++;
 	while (str[i] != ' ' && str[i] != '\0')
 	{
-		cmd[j] = str[i];
-		i++;
-		j++;
+		if (str[i] == 34)
+			while (str[i++] != 34 && str[i++])
+				test[j++] = str[i];
+		else if (str[i] == 39)
+			while (str[i++] != 39 && str[i++])
+				test[j++] = str[i];
+		else if (str[i] != 34 && str[i] != 39)
+			test[j++] = str[i++];
 	}
-	if (str[0] == '\0')
-		return (NULL);
-	cmd[j] = '\0';
-	return (cmd);
+	test[j] = '\0';
+	return (test);
+}
+
+void	ft_split_all(t_token **blist, char *str)
+{
+	t_token	*temp;
+
+	temp = (*blist);
+//	if (!validquote(str))
+	temp->cmd = ft_get_cmd(str);
+	str = skip2(str);
+	printf("Oh shit -> %s\n", str);
+	temp->flags = ft_get_flags(str);
+	// str = skip(str);
+	// temp->args = ft_get_args(str);
+	//free(str);
 }

@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:52:21 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/12 14:09:59 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/21 20:01:56 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,46 +21,78 @@
 # include <stdlib.h>
 # include <string.h>
 
-//* Struct Parse
-typedef struct s_token
-{
-	char	*input;
-	char	*cmd;
-	char	*flag;
-	char	*files;
-	char	*sep;
-	char	*cmd2;
-	char	*flag2;
-	char	*sep2;
-}	t_token;
+typedef struct s_token		t_token;
+typedef struct s_env		t_env;
 
-typedef struct s_parse
+//* **************** Struct parse ****************
+
+struct s_token
 {
-	char	*input;
-	char	**env;
-	char	**cmdsplit;
-	t_token	*token;
-}	t_parse;
+	char			*cmd;
+	char			*flags;
+	char			*args;
+	char			*pipeorcrocodile;
+	int				type;
+	t_token			*next;
+};
+
+struct s_env
+{
+	char			**env_tab;
+};
 
 //* **************** Utils ****************
 char	**ft_split(char const *s, char c);
 size_t	ft_strlen(const char *str);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char	*whitespace(char *str);
 void	*ft_calloc(size_t count, size_t size);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *c);
-char	*ft_strjoin(char const *s1, char const *s2, int n);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strtrim(char const *s1, char set);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+char	*ft_strjoin(char *s1, char *buf);
 
 //* **************** Lexing ****************
+char	*remove_spaces(char *str);
+void	splitpipe(t_token **blist, char *str);
+void	lexing(t_token **blist, char *str, char **env);
+void	ft_split_all(t_token **blist, char *str);
 char	*ft_get_cmd(char *str);
-char	*ft_get_flags(char *str, t_parse *parse);
-char	*ft_get_files(char *str);
-void	fuckwhitespace(t_parse *parse);
+char	*ft_get_flags(char *str);
+int		helperspace(char *str, int help);
+int		quotespy(char *str, int help);
+int		findquotes(char *str);
+char	typequotes(char *str);
+char	*skip2(char *str);
+char	*takingnoquote(char *str, char quote);
+int		lenwithoutquote(char *str);
 
-void	lexing(t_parse *parse);
-void	splitinput(char *str, t_parse *parse);
+//* **************** Lists ****************
+t_token	*ft_create_list(void);
+void	*ft_lstadd_back(t_token *pile);
+void	init_list(t_token **list);
+int		ft_list_length(t_token **pile);
+void	free_list(t_token **list);
+void	list_free_data(void *data);
+void	*list_shift(t_token **blist);
+void	list_clear(t_token **blist, void (*free_data)(void *data));
+t_env	*ft_create_listenv(void);
+void	init_env(t_env blist);
 
-int checkcmd(t_parse *parse);
+//* **************** Prompt & Cie ****************
+void	exitshell(t_token **blist);
+char	*input(void);
+void	errorcmd(char *str);
+
+//******************* Builtins commands *********
+void	builtins(t_token **blist, char **env);
+int		is_letter(char c);
+void	pwd_command(char **env);
+void	echo_command(t_token **blist);
+char	*ft_find(char **env, char *str);
+int		ft_findspace(char *str);
+void	env_command(char **env);
+void	export_command(t_token **blist, t_env **list_env);
 
 #endif

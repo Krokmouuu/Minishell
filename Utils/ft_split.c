@@ -6,81 +6,77 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:15:14 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/08 14:36:07 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/21 19:32:22 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	nbrstring(const char *str, char c)
+static int	ft_countwords(char *str, char sep)
 {
-	int	i;
-	int	check;
+	int		count;
+	size_t	i;
 
+	count = 0;
 	i = 0;
-	check = 0;
-	while (str[i])
+	while (i < ft_strlen(str))
 	{
-		while (str[i] && str[i] == c)
-			i++;
-		while (str[i] && str[i] != c)
+		if (str[i] != sep)
 		{
-			if (str[i] && str[i] != c)
-			{
-				while (str[i] && str[i] != c)
-					i++;
-				check++;
-			}
-			i++;
+			count++;
+			while (str[i] != sep && i < ft_strlen(str))
+				i++;
 		}
+		i++;
 	}
-	return (check);
+	if (count == 0)
+		return (0);
+	return (count);
 }
 
-static char	*lenword(const char *str, int start, int end)
+static size_t	ft_findend(char *str, char c, int i)
 {
-	int		i;
-	char	*word;
-
-	i = 0;
-	word = malloc((end - start + 1) * sizeof(char));
-	if (word == NULL)
-		return (NULL);
-	while (start < end)
+	if (str[i] == c)
 	{
-		word[i] = str[start];
-		i++;
-		start++;
+		while (str[i] == c)
+			i++;
 	}
-	word[i] = '\0';
-	return (word);
+	while (str[i] != c && str[i])
+		i++;
+	return (i);
+}
+
+static size_t	ft_findstart(char *str, char c, int i)
+{
+	while (str[i] == c)
+		i++;
+	return (i);
 }
 
 char	**ft_split(char const *s, char c)
 {
+	char	**tab;
 	size_t	i;
-	size_t	j;
-	int		start;
-	char	**split;
+	size_t	nb_words;
+	size_t	end_word;
+	size_t	start_word;
 
-	i = 0;
-	j = 0;
-	start = -1;
-	split = malloc(((nbrstring(s, c) + 1) * sizeof(char *)));
-	if (!split || !s)
+	if (!s)
 		return (NULL);
-	while (i <= ft_strlen(s))
+	i = 0;
+	start_word = 0;
+	end_word = 0;
+	tab = NULL;
+	nb_words = ft_countwords((char *) s, c);
+	tab = (char **)ft_calloc(nb_words + 1, sizeof(char *));
+	if (tab == NULL)
+		return (NULL);
+	while (i < nb_words)
 	{
-		if (s[i] != c && start < 0)
-			start = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && start >= 0)
-		{
-			split[j] = lenword(s, start, i);
-			j++;
-			start = -1;
-		}
-		i++;
+		start_word = ft_findstart((char *)s, c, end_word);
+		end_word = ft_findend((char *)s, c, start_word);
+		tab[i++] = ft_substr((char *)s, start_word, (end_word - start_word));
 	}
-	split[j] = 0;
-	return (split);
+	tab[i] = NULL;
+	return (tab);
 }

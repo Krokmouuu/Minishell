@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/13 13:20:41 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/14 13:58:28 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/21 17:51:48 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/21 17:52:06 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strdup(const char *c)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	int		i;
-	char	*str;
+	size_t		c;
+	size_t		i;
 
 	i = 0;
-	while (c[i])
-		i++;
-	str = malloc(i * sizeof(char) + 1);
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (c[i])
+	c = ft_strlen(dst);
+	if (dstsize <= ft_strlen(dst))
+		return (dstsize + ft_strlen(src));
+	while (src[i] != '\0' && c + 1 < dstsize)
 	{
-		str[i] = c[i];
+		dst[c] = src[i];
 		i++;
+		c++;
 	}
-	str[i] = '\0';
-	return (str);
+	dst[c] = '\0';
+	return (ft_strlen(dst) + ft_strlen(&src[i]));
 }

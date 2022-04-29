@@ -1,41 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 11:51:26 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:04 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/27 16:02:15 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/29 18:55:22 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-int	pwd_command(t_env **env)
+int	exec_cmd(t_token **blist, t_env **env_list, char **env)
 {
-	int		i;
-	char	*path;
-	t_env	*read;
+	t_token	*list;
+	t_env	*t_env;
 
-	i = 0;
-	path = NULL;
-	read = (*env);
-	read = read->next;
-	while (read->next)
-	{
-		i = 0;
-		if (read->str[i] == 'P' && read->str != NULL)
-		{
-			i++;
-			if (read->str[i] == 'W')
-			{
-				i++;
-				if (read->str[i] == 'D')
-					return (printf("%s\n", read->value));
-			}
-		}
-		read = read->next;
-	}
+	list = (*blist);
+	t_env = (*env_list);
+	(void)env;
 	return (0);
 }

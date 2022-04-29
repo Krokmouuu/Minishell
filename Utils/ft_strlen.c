@@ -6,11 +6,11 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:30:03 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/12 19:29:18 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/29 18:55:54 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Core/minishell.h"
 
 size_t	ft_strlen(const char *str)
 {

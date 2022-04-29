@@ -6,36 +6,22 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 11:50:42 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/20 18:18:43 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/29 18:54:49 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Core/minishell.h"
 
-int	ft_get_max(char **flags)
+int	ft_print_flag(char **flags, int i, t_token **blist, int check)
 {
-	int	i;
-
-	i = 0;
-	while (flags[i])
-		i++;
-	return (i);
-}
-
-int	ft_print_flag(char **flags, int i, t_token **blist)
-{
-	int	check;
 	int	n;
-	int	max;
 	int	mama;
 
-	check = 0;
 	mama = 1;
-	max = ft_get_max(flags);
 	while (flags[i])
 	{
-		n = 1;
-		while (flags[i][n])
+		n = 0;
+		while (flags[i][++n])
 		{
 			if (flags[i][n] != 'n' && flags[i][n] != '\0')
 			{
@@ -44,21 +30,13 @@ int	ft_print_flag(char **flags, int i, t_token **blist)
 			}
 			if (check >= i && i > 0)
 				mama = 0;
-			n++;
 		}
-		if (check > 0)
-			printf("%s", flags[i]);
-		if (check > 0 && flags[i][n - 1] == 'n')
-			printf(" ");
-		if (flags[i][n - 1] != 'n' && i + 1 < max && check >= 0)
-			printf(" ");
+		print_line(check, flags, i, n);
 		i++;
 	}
 	if (flags[i - 1][n - 1] != 'n' && (*blist)->args != NULL)
 		printf(" ");
-	if (mama == 0)
-		return (max);
-	return (check);
+	return (ft_return_echo(mama, max(flags), check));
 }
 
 int	ft_check_nflag(t_token **blist, int i)
@@ -69,15 +47,15 @@ int	ft_check_nflag(t_token **blist, int i)
 
 	n = 0;
 	check = 0;
-	if (!(*blist)->flags)
+	if (!(*blist)->args)
 		return (-1);
-	if ((*blist)->flags[i + 1] == '-' || ft_strlen((*blist)->flags) < 2)
+	if ((*blist)->args[i + 1] == '-' || ft_strlen((*blist)->args) < 2)
 	{
-		printf("%s", (*blist)->flags);
+		printf("%s", (*blist)->args);
 		return (-1);
 	}
-	flags = ft_split((*blist)->flags, ' ');
-	check = ft_print_flag(flags, i, blist);
+	flags = ft_split((*blist)->args, ' ');
+	check = ft_print_flag(flags, i, blist, check);
 	while (flags[i])
 		free(flags[i++]);
 	free (flags);
@@ -87,17 +65,61 @@ int	ft_check_nflag(t_token **blist, int i)
 	return (0);
 }
 
-void	echo_command(t_token **blist)
+void	print_echo_args(t_token **blist, t_env **t_env_list)
 {
-	int	ndash;
-	int	i;
+	int		i;
+	int		n;
+	t_env	*env;
 
+	env = (*t_env_list);
+	n = 1;
+	i = 0;
+	if ((*blist)->args[i] == '$' && (*blist)->quoted != 1)
+	{
+		while ((ft_strcmp(env->str, &(*blist)->args[n]) != 0) && env->next)
+			env = env->next;
+		if (ft_strcmp(env->str, &(*blist)->args[n]) == 0)
+			printf("%s", env->value);
+	}
+	else
+		printf("%s", (*blist)->args);
+}
+
+void	echo_avatar_two(t_token *read, t_env **t_env_list)
+{
+	while (read->next != NULL)
+	{
+		if (read->args != NULL)
+			print_echo_args(&read, t_env_list);
+		read = read->next;
+		if (read->next != NULL)
+			printf(" ");
+	}
+}
+
+int	echo_command(t_token **blist, t_env **t_env_list)
+{
+	int		ndash;
+	int		i;
+	t_token	*read;
+
+	read = (*blist);
 	i = 0;
 	ndash = 0;
-	if (ft_check_nflag(blist, i) > 0)
-		ndash = 1;
-	if ((*blist)->args != NULL)
-		printf("%s", (*blist)->args);
+	read = read->next;
+	while (read->type == 9 && read->next != NULL)
+	{
+		if (ft_check_nflag(&read, i) > 0)
+			ndash = 1;
+		else
+		{
+			read = read->next;
+			break ;
+		}
+		read = read->next;
+	}
+	echo_avatar_two(read, t_env_list);
 	if (ndash == 0)
 		printf("\n");
+	return (0);
 }

@@ -1,41 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 11:51:26 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:04 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/13 14:57:14 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/29 18:54:47 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-int	pwd_command(t_env **env)
+int	cd_command(t_token **blist, t_env **env_list)
 {
-	int		i;
-	char	*path;
-	t_env	*read;
+	char	*str;
+	char	*get;
+	t_token	*read;
 
-	i = 0;
-	path = NULL;
-	read = (*env);
-	read = read->next;
-	while (read->next)
-	{
-		i = 0;
-		if (read->str[i] == 'P' && read->str != NULL)
-		{
-			i++;
-			if (read->str[i] == 'W')
-			{
-				i++;
-				if (read->str[i] == 'D')
-					return (printf("%s\n", read->value));
-			}
-		}
-		read = read->next;
-	}
+	read = (*blist);
+	get = getcwd(NULL, 0);
+	str = ft_strjoin("OLDPWD=", get);
+	ft_lstadd_back_export(env_list, str);
+	free(str);
+	free(get);
+	if (chdir(read->next->args) != 0)
+		return (printf("PROBLEM\n"));
+	get = getcwd(NULL, 0);
+	str = ft_strjoin("PWD=", get);
+	ft_lstadd_back_export(env_list, str);
+	free(str);
+	free(get);
 	return (0);
 }

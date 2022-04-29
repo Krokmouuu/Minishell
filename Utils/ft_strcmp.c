@@ -1,42 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/07 14:28:25 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/29 18:56:02 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/22 14:18:04 by ple-berr          #+#    #+#             */
+/*   Updated: 2022/04/29 18:55:36 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+int	ft_strcmp(char *s1, char *s2)
 {
-	size_t	i;
-	int		j;
-	char	*check;
+	int	i;
 
 	i = 0;
-	check = 0;
-	if (needle[i] == '\0')
-		return ((char *)haystack);
-	while (haystack[i] && i < len)
+	if (!s1 || !s2)
+		return (-1);
+	while (s1[i])
 	{
-		if (haystack[i] == needle[0])
-		{
-			check = (char *)haystack + i;
-			j = 0;
-			while (haystack[i + j] == needle[j] && i + j < len)
-			{
-				if (needle[j + 1] == '\0')
-					return (check);
-				j++;
-			}
-			check = 0;
-		}
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
 		i++;
 	}
-	return (NULL);
+	return (s1[i] - s2[i]);
 }

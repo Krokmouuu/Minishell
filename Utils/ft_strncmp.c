@@ -1,42 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/07 14:28:25 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/29 18:56:02 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/22 18:18:24 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/29 18:55:56 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
-	int		j;
-	char	*check;
 
 	i = 0;
-	check = 0;
-	if (needle[i] == '\0')
-		return ((char *)haystack);
-	while (haystack[i] && i < len)
-	{
-		if (haystack[i] == needle[0])
-		{
-			check = (char *)haystack + i;
-			j = 0;
-			while (haystack[i + j] == needle[j] && i + j < len)
-			{
-				if (needle[j + 1] == '\0')
-					return (check);
-				j++;
-			}
-			check = 0;
-		}
+	if (n == 0)
+		return (0);
+	while (i + 1 < n && (s1[i] == s2[i] && (s1[i])))
 		i++;
-	}
-	return (NULL);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

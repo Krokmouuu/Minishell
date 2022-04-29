@@ -6,11 +6,11 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:01 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/20 14:58:53 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/29 18:56:04 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Core/minishell.h"
 
 static char	verif(char c, char set)
 {

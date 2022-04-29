@@ -6,11 +6,11 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 17:51:28 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/21 17:52:11 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/29 18:55:50 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Core/minishell.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {

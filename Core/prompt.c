@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 11:51:26 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:04 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/13 14:48:21 by bleroy            #+#    #+#             */
+/*   Updated: 2022/04/29 19:02:14 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Core/minishell.h"
+#include "minishell.h"
 
-int	pwd_command(t_env **env)
+void	errorcmd(char *str)
 {
-	int		i;
-	char	*path;
-	t_env	*read;
+	printf("%s\n", str);
+}
 
-	i = 0;
-	path = NULL;
-	read = (*env);
-	read = read->next;
-	while (read->next)
-	{
-		i = 0;
-		if (read->str[i] == 'P' && read->str != NULL)
-		{
-			i++;
-			if (read->str[i] == 'W')
-			{
-				i++;
-				if (read->str[i] == 'D')
-					return (printf("%s\n", read->value));
-			}
-		}
-		read = read->next;
-	}
-	return (0);
+void	exitshell(t_token **blist)
+{
+	(void)blist;
+	exit (0);
+}
+
+char	*input(void)
+{
+	char	*str;
+
+	str = readline("Minishell$ 🥵🍆🐇📨 > ");
+	if (str && str[0] != '\0')
+		add_history(str);
+	return (str);
 }

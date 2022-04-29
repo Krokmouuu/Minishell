@@ -6,11 +6,11 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:15:14 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/21 19:32:22 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/29 18:55:33 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Core/minishell.h"
 
 static int	ft_countwords(char *str, char sep)
 {

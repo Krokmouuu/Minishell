@@ -6,11 +6,11 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 17:52:40 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/21 19:18:35 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/29 18:55:44 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Core/minishell.h"
 
 char	*ft_strjoin(char *str, char *buf)
 {
@@ -36,6 +36,5 @@ char	*ft_strjoin(char *str, char *buf)
 	while (buf[j] != '\0')
 		tmp[i++] = buf[j++];
 	tmp[ft_strlen(str) + ft_strlen(buf)] = '\0';
-	free (str);
 	return (tmp);
 }

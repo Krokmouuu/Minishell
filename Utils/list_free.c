@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   list_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 11:51:26 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:04 by bleroy           ###   ########.fr       */
+/*   Created: 2022/04/14 11:57:05 by ple-berr          #+#    #+#             */
+/*   Updated: 2022/04/29 18:56:13 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-int	pwd_command(t_env **env)
-{
-	int		i;
-	char	*path;
-	t_env	*read;
+//New set of functions to free lists which works but only frees cmd
 
-	i = 0;
-	path = NULL;
-	read = (*env);
-	read = read->next;
-	while (read->next)
-	{
-		i = 0;
-		if (read->str[i] == 'P' && read->str != NULL)
-		{
-			i++;
-			if (read->str[i] == 'W')
-			{
-				i++;
-				if (read->str[i] == 'D')
-					return (printf("%s\n", read->value));
-			}
-		}
-		read = read->next;
-	}
-	return (0);
+void	list_free_data(void *data)
+{
+	free(data);
+}
+
+void	*list_shift(t_token **blist)
+{
+	t_token		*del;
+	void		*data;
+
+	del = (*blist);
+	data = del->args;
+	if ((*blist)->next)
+		*blist = (*blist)->next;
+	else
+		*blist = NULL;
+	free(del);
+	return (data);
+}
+
+void	list_clear(t_token **blist, void (*free_data)(void *data))
+{
+	while (*blist)
+		(*free_data)(list_shift(blist));
 }

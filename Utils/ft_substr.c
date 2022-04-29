@@ -6,11 +6,11 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 18:27:00 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/14 17:46:10 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/29 18:56:11 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Core/minishell.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

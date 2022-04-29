@@ -6,11 +6,11 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 11:51:39 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/21 15:40:22 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/04/29 18:54:21 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Core/minishell.h"
 
 char	*ft_find(char **env, char *str)
 {
@@ -46,7 +46,6 @@ int	ft_findspace(char *str)
 		i++;
 	return (i);
 }
-// -4 pour enlever les char parasites en bout de ligne
 
 int	is_letter(char c)
 {
@@ -75,20 +74,24 @@ int	get_builtin(char *str, char *cmd)
 	return (0);
 }
 
-void	builtins(t_token **blist, char **env)
+int	builtins(t_token **blist, t_env **env_list)
 {
 	t_token	*read;
 	char	*pwd;
-	int		i;
 
 	read = (*blist);
 	pwd = NULL;
-	i = 0;
-	(void)env;
-	if (get_builtin(read->cmd, "pwd") == 0)
-		pwd_command(env);
-	if (get_builtin(read->cmd, "env") == 0)
-		env_command(env);
-	if (get_builtin(read->cmd, "echo") == 0)
-		echo_command(blist);
+	if (get_builtin(read->args, "pwd") == 0)
+		return (pwd_command(env_list));
+	if (get_builtin(read->args, "env") == 0)
+		return (print_list_env(env_list));
+	if (get_builtin(read->args, "export") == 0)
+		return (export_command(blist, env_list));
+	if (get_builtin(read->args, "unset") == 0)
+		return (unset_command(blist, env_list));
+	if (get_builtin(read->args, "echo") == 0)
+		return (echo_command(blist, env_list));
+	if (get_builtin(read->args, "cd") == 0)
+		return (cd_command(blist, env_list));
+	return (-1);
 }

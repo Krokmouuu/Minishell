@@ -38,5 +38,3 @@ int	unset_command(t_token **blist, t_env **env_list)
 	}
 	return (0);
 }
-		/*if (env != NULL)
-			env = env->next;*/

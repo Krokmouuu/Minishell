@@ -6,11 +6,21 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:50:23 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/28 15:14:14 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/04 16:59:35 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	signal_function(int sig)
+{
+	if (sig == 0)
+		printf("sig = 0\n");
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	main(int argc, char **argv, char **env)
 {	
@@ -34,7 +44,6 @@ int	main(int argc, char **argv, char **env)
 		if (str == NULL)
 			exitshell(blist);
 		lexing(blist, str, real_env, env);
-		//ft_list_length(blist);
 		free_list(&list);
 	}
 	return (0);

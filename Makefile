@@ -6,7 +6,7 @@
 #    By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 16:53:35 by bleroy            #+#    #+#              #
-#    Updated: 2022/04/29 18:58:12 by bleroy           ###   ########.fr        #
+#    Updated: 2022/05/05 19:14:34 by bleroy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,16 @@ _ICYAN=$'\x1b[46m
 _IWHITE=$'\x1b[47m
 
 SRCS = Core/minishell.c \
-	   Parse/lexing.c \
 	   Core/prompt.c \
+	   Parse/redirection.c \
+	   Parse/lexing.c \
 	   Parse/splitcmd.c \
 	   Helpers/helpers.c \
 	   Helpers/helpers2.c \
+	   Helpers/helpers3.c \
+	   Utils/ft_putstr.c \
 	   Utils/ft_strjoin.c \
+	   Utils/ft_strjoin_exec.c \
 	   Utils/ft_strnstr.c \
 	   Utils/ft_strlen.c \
 	   Utils/ft_calloc.c \
@@ -55,14 +59,18 @@ SRCS = Core/minishell.c \
 	   Utils/list_utils.c \
 	   Utils/list_free.c \
 	   Execution/exec_cmd.c \
+	   Execution/exec_cmdredir.c \
+	   Execution/exec_values.c \
 	   Builtins/builtins.c \
 	   Builtins/builtin_cd.c \
 	   Builtins/builtin_pwd.c \
+	   Builtins/builtin_export.c \
 	   Builtins/builtin_env.c \
 	   Builtins/builtin_list_env.c \
-	   Builtins/builtin_export.c \
-	   Builtins/builtin_unset.c \
+	   Builtins/builtin_exit.c \
 	   Builtins/builtin_echo.c \
+	   Builtins/echo_command_redirect.c \
+	   Builtins/builtin_unset.c \
 	   Builtins/builtin_utils_echo.c \
 
 OBJS = ${SRCS:.c=.o}
@@ -71,7 +79,7 @@ NAME = minishell
 
 CC = @cc
 
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -Wall -Werror -Wextra
 RM = @rm -f
 
 all: ${NAME}
@@ -156,7 +164,7 @@ ${NAME}: ${OBJS}
 		@sleep .1
 		@clear
 		@echo "${_BOLD}${_UNDER}✨ Compilation terminée sans AUCUN problème ✨${_END}"
-		$(CC) $(OBJS) $(CFLAGS) -l readline -o $(NAME)
+		$(CC) $(OBJS)  $(CFLAGS) -o $(NAME) -I${HOME}/.brew/opt/readline/include -L${HOME}/.brew/opt/readline/lib -lreadline 
 
 clean :
 		${RM} ${OBJS}
@@ -510,6 +518,10 @@ vroom:
 		@echo ""
 		@sleep .5
 		@clear
+
+pikachu: 
+	@cat pikachu.txt
+
 
 re :    fclean all
 

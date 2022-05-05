@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 11:51:39 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/29 18:54:21 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/05 16:44:16 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	get_builtin(char *str, char *cmd)
 	return (0);
 }
 
-int	builtins(t_token **blist, t_env **env_list)
+int	builtins(t_token **blist, t_env **env_list, int toto)
 {
 	t_token	*read;
 	char	*pwd;
@@ -82,16 +82,20 @@ int	builtins(t_token **blist, t_env **env_list)
 	read = (*blist);
 	pwd = NULL;
 	if (get_builtin(read->args, "pwd") == 0)
-		return (pwd_command(env_list));
+		return (pwd_command(blist, env_list));
 	if (get_builtin(read->args, "env") == 0)
 		return (print_list_env(env_list));
 	if (get_builtin(read->args, "export") == 0)
 		return (export_command(blist, env_list));
 	if (get_builtin(read->args, "unset") == 0)
 		return (unset_command(blist, env_list));
-	if (get_builtin(read->args, "echo") == 0)
+	if (get_builtin(read->args, "echo") == 0 && toto == 2)
+		return (echo_command_redirect(blist, env_list));
+	else if (get_builtin(read->args, "echo") == 0)
 		return (echo_command(blist, env_list));
 	if (get_builtin(read->args, "cd") == 0)
 		return (cd_command(blist, env_list));
+	if (get_builtin(read->args, "exit") == 0)
+		return (exit_command(blist));
 	return (-1);
 }

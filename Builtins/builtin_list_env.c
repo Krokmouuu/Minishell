@@ -12,11 +12,27 @@
 
 #include "../Core/minishell.h"
 
+int	check_path(t_env **read)
+{
+	t_env	*list;
+
+	list = (*read);
+	while (list->next != NULL)
+	{
+		if (get_builtin(list->next->str, "PATH") == 0)
+			return (0);
+		list = list->next;
+	}
+	return (1);
+}
+
 int	print_list_env(t_env **read)
 {
 	t_env	*list;
 
 	list = (*read);
+	if (check_path(read) != 0)
+		return (-1);
 	while (list)
 	{
 		if (list->str != NULL)

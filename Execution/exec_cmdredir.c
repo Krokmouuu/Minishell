@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*   exec_cmdredir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:02:15 by bleroy            #+#    #+#             */
-/*   Updated: 2022/05/05 14:58:07 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/05 16:14:22 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-char	**ft_get_args(t_token **list, t_env **env_list)
+char	**ft_get_args2(t_token **list, t_env **env_list)
 {
 	int		i;
 	char	**arguments;
@@ -36,7 +36,7 @@ char	**ft_get_args(t_token **list, t_env **env_list)
 	return (arguments);
 }
 
-void	ft_execve(t_token **list, t_env **env_list, char **env)
+int	ft_execve2(t_token **list, t_env **env_list, char **env, int *fd)
 {
 	char	*envp_path;
 	char	*path;
@@ -47,11 +47,11 @@ void	ft_execve(t_token **list, t_env **env_list, char **env)
 	i = 0;
 	envp_path = get_envp_path(env_list);
 	new_path = ft_split(envp_path, ':');
-	arguments = ft_get_args(list, env_list);
+	arguments = ft_get_args2(list, env_list);
 	if ((*list)->args == NULL)
 		exit(-1);
 	if (!new_path)
-		errorcmd((*list)->args, 1);
+		return (errorcmd2((*list)->args, 1, fd));
 	while (new_path[i] != NULL)
 	{
 		if (i == 0)
@@ -62,22 +62,22 @@ void	ft_execve(t_token **list, t_env **env_list, char **env)
 		free(path);
 		i++;
 	}
-	errorcmd((*list)->args, 2);
+	return (errorcmd2((*list)->args, 2, fd));
 }
 
 // GERER $ls COMMANDE DANS VARIABLE D'ENVIRONNEMENT
-void	process_one(t_token **list, t_env **env_list, char **env)
+void	process_one2(t_token **list, t_env **env_list, char **env, int *fd)
 {
-	ft_execve(list, env_list, env);
+	ft_execve2(list, env_list, env, fd);
 }
 
-int	exec_cmd(t_token **blist, t_env **env_list, char **env)
+int	exec_cmd2(t_token **blist, t_env **env_list, char **env, int *fd)
 {
 	pid_t	pid1;
 
 	pid1 = fork();
 	if (pid1 == 0)
-		process_one(blist, env_list, env);
+		process_one2(blist, env_list, env, fd);
 	waitpid(pid1, NULL, 0);
 	return (0);
 }

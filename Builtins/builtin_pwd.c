@@ -12,30 +12,19 @@
 
 #include "../Core/minishell.h"
 
-int	pwd_command(t_env **env)
+int	pwd_command(t_token **blist, t_env **env)
 {
-	int		i;
-	char	*path;
 	t_env	*read;
+	char	*pwd;
 
-	i = 0;
-	path = NULL;
-	read = (*env);
-	read = read->next;
-	while (read->next)
+	if ((*blist)->next->next != NULL)
 	{
-		i = 0;
-		if (read->str[i] == 'P' && read->str != NULL)
-		{
-			i++;
-			if (read->str[i] == 'W')
-			{
-				i++;
-				if (read->str[i] == 'D')
-					return (printf("%s\n", read->value));
-			}
-		}
-		read = read->next;
+		printf("pwd: too many arguments\n");
+		return (0);
 	}
+	pwd = getcwd(NULL, 0);
+	read = (*env);
+	printf("%s\n", pwd);
+	free(pwd);
 	return (0);
 }

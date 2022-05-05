@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   helpers3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/05 16:50:23 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/21 18:15:37 by bleroy           ###   ########.fr       */
+/*   Created: 2022/05/04 17:03:03 by bleroy            #+#    #+#             */
+/*   Updated: 2022/05/05 19:27:14 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../Core/minishell.h"
 
-int	main(int argc, char **argv, char **env)
-{	
-	char	*str;
-	t_token	*list;
-	t_token	**blist;
-
-	list = NULL;
-	(void)argc;
-	(void)argv;
-	blist = &list;
-	while (1)
+int	validquotebrother(char *uwu, char *owo, int i)
+{
+	if (i == 1)
 	{
-		init_list(blist);
-		str = input();
-		if (str == NULL)
-			exitshell(blist);
-		lexing(blist, str, env);
-		ft_list_length(blist);
-		free_list(&list);
+		printf("Missing Quote\n");
+		free (uwu);
+		free (owo);
+		return (0);
 	}
+	free (uwu);
+	free (owo);
 	return (0);
 }
+
+// void	redirectiontime(t_token	**b, t_token **n, t_env **el, char **e, int *f)
+// {
+// 	new_list(b, n);
+// 	if (builtins(n, el, 2) != 0)
+// 		exec_cmd2(n, el, e, f);
+// }

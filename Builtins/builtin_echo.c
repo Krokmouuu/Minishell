@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 11:50:42 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/29 18:54:49 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/05 16:44:48 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	print_echo_args(t_token **blist, t_env **t_env_list)
 	i = 0;
 	if ((*blist)->args[i] == '$' && (*blist)->quoted != 1)
 	{
+		if ((*blist)->args[i + 1] == '?')
+			printf("0\n");
 		while ((ft_strcmp(env->str, &(*blist)->args[n]) != 0) && env->next)
 			env = env->next;
 		if (ft_strcmp(env->str, &(*blist)->args[n]) == 0)
@@ -89,9 +91,12 @@ void	echo_avatar_two(t_token *read, t_env **t_env_list)
 {
 	while (read->next != NULL)
 	{
+		if (read->type == 2 && read->next != NULL)
+			read = read->next;
 		if (read->args != NULL)
 			print_echo_args(&read, t_env_list);
-		read = read->next;
+		if (read->next != NULL)
+			read = read->next;
 		if (read->next != NULL)
 			printf(" ");
 	}

@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   echo_command_redirect.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/13 13:20:41 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:42 by bleroy           ###   ########.fr       */
+/*   Created: 2022/05/05 16:41:47 by bleroy            #+#    #+#             */
+/*   Updated: 2022/05/05 17:02:39 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-char	*ft_strdup(const char *c)
+int	echo_command_redirect(t_token **blist, t_env **t_env_list)
 {
+	int		ndash;
 	int		i;
-	char	*str;
+	t_token	*read;
 
+	read = (*blist);
 	i = 0;
-	if (!c)
-		return (NULL);
-	while (c[i])
-		i++;
-	str = malloc(i * sizeof(char) + 1);
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (c[i])
+	ndash = 0;
+	read = read->next;
+	while (read->type == 9 && read->next != NULL)
 	{
-		str[i] = c[i];
-		i++;
+		if (ft_check_nflag(&read, i) > 0)
+			ndash = 1;
+		else
+		{
+			read = read->next;
+			break ;
+		}
+		read = read->next;
 	}
-	str[i] = '\0';
-	return (str);
+	echo_avatar_two(read, t_env_list);
+	printf("\n");
+	return (0);
 }

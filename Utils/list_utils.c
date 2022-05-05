@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 13:20:32 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/29 18:56:20 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/05 16:16:04 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	ft_list_length(t_token **list)
 	temp = (*list);
 	while (temp != NULL)
 	{
-		printf("Arg %d -> %s | Type -> %d\n", i, temp->args, temp->type);
 		i++;
 		temp = temp->next;
 	}

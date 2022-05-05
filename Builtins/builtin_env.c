@@ -47,3 +47,4 @@ void	env_command(t_env **env_list, char **env)
 	init_env(env_list);
 	fill_env_list(env, env_list);
 }
+//IF PATH UNSET -> ENV NOT WORKING ANYMORE

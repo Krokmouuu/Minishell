@@ -34,7 +34,7 @@ t_env	*setup_export(int i, char *line)
 	return (element);
 }
 
-void	ft_lstadd_back_export_helper(t_env *element, t_env *tmp, int i)
+int	ft_lstadd_back_export_helper(t_env *element, t_env *tmp, int i)
 {
 	if (i == 0)
 	{
@@ -53,9 +53,10 @@ void	ft_lstadd_back_export_helper(t_env *element, t_env *tmp, int i)
 		free(tmp->next);
 		tmp->next = element;
 	}
+	return (0);
 }
 
-void	ft_lstadd_back_export(t_env **pile, char *line)
+int	ft_lstadd_back_export(t_env **pile, char *line, int check)
 {
 	int		i;
 	int		n;
@@ -66,6 +67,8 @@ void	ft_lstadd_back_export(t_env **pile, char *line)
 	i = get_equal(line);
 	element = setup_export(i, line);
 	tmp = (*pile);
+	if (check == 0)
+		return (0);
 	while (tmp->next != NULL)
 	{
 		if (get_builtin(tmp->next->str, element->str) == 0)
@@ -74,12 +77,12 @@ void	ft_lstadd_back_export(t_env **pile, char *line)
 				return (ft_lstadd_back_export_helper(element, tmp, 0));
 			else if (tmp->next->next != NULL)
 				return (ft_lstadd_back_export_helper(element, tmp, 1));
-			return ;
+			return (0);
 		}
 		tmp = tmp->next;
 	}
 	tmp->next = element;
-	return ;
+	return (0);
 }
 
 int	export_command(t_token **blist, t_env **t_env_list)
@@ -89,24 +92,24 @@ int	export_command(t_token **blist, t_env **t_env_list)
 	t_env	*list;
 	t_token	*read;
 
-	i = 0;
+	i = -1;
 	check = 0;
 	list = (*t_env_list);
-	read = (*blist);
-	read = read->next;
-	if (read->args != NULL)
+	read = (*blist)->next;
+	print_list_env_v2(t_env_list, read);
+	while (read->args != NULL)
 	{
-		while (read->args[i])
+		while (read->args[++i])
 		{
 			if (read->args[i] == '=')
 				check = 1;
-			if (check == 0 && read->args[0] >= '0'
-				&& read->args[0] <= '9')
+			if (check == 0 && read->args[0] >= '0' && read->args[0] <= '9')
 				break ;
-			i++;
 		}
-		if (check == 1)
-			ft_lstadd_back_export(t_env_list, read->args);
+		check = ft_lstadd_back_export(t_env_list, read->args, check);
+		read = read->next;
+		i = -1;
 	}
+	g_struct.exit_status = 0;
 	return (0);
 }

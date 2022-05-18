@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 17:01:43 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:20 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/16 17:55:57 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	lenword(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] != ' ' && str[i] && str[i] != DQUOTE && str[i] != SQUOTE)
+	if (!str)
+		return (0);
+	while (str[i] != ' ' && str[i])
 		i++;
 	return (i);
 }

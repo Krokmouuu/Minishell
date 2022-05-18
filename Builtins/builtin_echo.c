@@ -6,66 +6,15 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 11:50:42 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/05/05 16:44:48 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/09 12:05:20 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-int	ft_print_flag(char **flags, int i, t_token **blist, int check)
-{
-	int	n;
-	int	mama;
+t_global		g_struct;
 
-	mama = 1;
-	while (flags[i])
-	{
-		n = 0;
-		while (flags[i][++n])
-		{
-			if (flags[i][n] != 'n' && flags[i][n] != '\0')
-			{
-				check++;
-				break ;
-			}
-			if (check >= i && i > 0)
-				mama = 0;
-		}
-		print_line(check, flags, i, n);
-		i++;
-	}
-	if (flags[i - 1][n - 1] != 'n' && (*blist)->args != NULL)
-		printf(" ");
-	return (ft_return_echo(mama, max(flags), check));
-}
-
-int	ft_check_nflag(t_token **blist, int i)
-{
-	int		n;
-	int		check;
-	char	**flags;
-
-	n = 0;
-	check = 0;
-	if (!(*blist)->args)
-		return (-1);
-	if ((*blist)->args[i + 1] == '-' || ft_strlen((*blist)->args) < 2)
-	{
-		printf("%s", (*blist)->args);
-		return (-1);
-	}
-	flags = ft_split((*blist)->args, ' ');
-	check = ft_print_flag(flags, i, blist, check);
-	while (flags[i])
-		free(flags[i++]);
-	free (flags);
-	flags = NULL;
-	if (check < i)
-		return (1);
-	return (0);
-}
-
-void	print_echo_args(t_token **blist, t_env **t_env_list)
+void	old_print_echo_arg(t_token **blist, t_env **t_env_list)
 {
 	int		i;
 	int		n;
@@ -76,22 +25,61 @@ void	print_echo_args(t_token **blist, t_env **t_env_list)
 	i = 0;
 	if ((*blist)->args[i] == '$' && (*blist)->quoted != 1)
 	{
+		if ((*blist)->args[i + 1] == '\0')
+			printf("$");
 		if ((*blist)->args[i + 1] == '?')
-			printf("0\n");
+			printf("%d", (g_struct.exit_status));
 		while ((ft_strcmp(env->str, &(*blist)->args[n]) != 0) && env->next)
 			env = env->next;
 		if (ft_strcmp(env->str, &(*blist)->args[n]) == 0)
-			printf("%s", env->value);
+			printf("%s", (env->value));
 	}
 	else
-		printf("%s", (*blist)->args);
+		printf("%s", ((*blist)->args));
+}
+
+void	quoted_echo_args(t_token **blist, t_env **t_env_list)
+{
+	int		i;
+	int		n;
+	char	**tab;
+	t_env	*env;
+
+	env = (*t_env_list);
+	i = 0;
+	n = 0;
+	while ((*blist)->args[n] != '$' && (*blist)->args[n])
+		write(1, &(*blist)->args[n++], 1);
+	tab = ft_split(&(*blist)->args[n], '$');
+	while (tab[i])
+	{
+		n = nextspace(tab[i]);
+		while ((ft_strncmp(env->str, tab[i], n) != 0) && env->next != NULL)
+			env = env->next;
+		if (ft_strncmp(env->str, tab[i], n) == 0)
+			ft_putstr(env->value);
+		if (tab[i][0] == '?')
+			ft_putnbr(g_struct.exit_status);
+		print_after(tab[i]);
+		env = (*t_env_list);
+		i++;
+	}
+	free_tab(tab);
+}
+
+void	print_echo_args(t_token **blist, t_env **t_env_list)
+{
+	if ((*blist)->quoted != 1 && (*blist)->quoted == 2)
+		quoted_echo_args(blist, t_env_list);
+	else
+		old_print_echo_arg(blist, t_env_list);
 }
 
 void	echo_avatar_two(t_token *read, t_env **t_env_list)
 {
 	while (read->next != NULL)
 	{
-		if (read->type == 2 && read->next != NULL)
+		if ((read->type == 2 || read->type == 3) && read->next != NULL)
 			read = read->next;
 		if (read->args != NULL)
 			print_echo_args(&read, t_env_list);
@@ -126,5 +114,6 @@ int	echo_command(t_token **blist, t_env **t_env_list)
 	echo_avatar_two(read, t_env_list);
 	if (ndash == 0)
 		printf("\n");
+	g_struct.exit_status = 0;
 	return (0);
 }

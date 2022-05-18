@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-berr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/22 18:18:24 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:56 by bleroy           ###   ########.fr       */
+/*   Created: 2022/05/18 14:04:11 by ple-berr          #+#    #+#             */
+/*   Updated: 2022/05/18 14:04:17 by ple-berr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+static void	ft_putchar(char c)
 {
-	size_t	i;
+	write (1, &c, 1);
+}
 
-	i = 0;
-	if (!s1 || !s2)
-		return (-1);
-	if (n == 0)
-		return (-1);
-	while (i + 1 < n && (s1[i] == s2[i] && (s1[i]) && (s2[i])))
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+void	ft_putnbr(int n)
+{
+	if (n == -2147483648)
+	{
+		write (1, "-2147483648", 11);
+		return ;
+	}
+	if (n < 0)
+	{
+		n *= -1;
+		write (1, "-", 1);
+	}
+	if (n > 9)
+		ft_putnbr(n / 10);
+	ft_putchar(n % 10 + '0');
 }

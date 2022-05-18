@@ -12,7 +12,6 @@
 
 #include "../Core/minishell.h"
 
-//Tout free, ne pas accepter plusieurs arguments, demander un int en argument
 int	exit_command(t_token **blist)
 {
 	t_token	*read;
@@ -33,8 +32,11 @@ int	exit_command(t_token **blist)
 		}
 	}
 	if (ft_list_length(blist) > 3)
+	{
 		printf("exit\nminishell: exit: too many arguments\n");
+		return (0);
+	}
 	else
 		printf("exit\n");
-	exit(0);
+	exit(reset_status());
 }

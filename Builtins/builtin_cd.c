@@ -21,21 +21,22 @@ int	cd_command(t_token **blist, t_env **env_list)
 	read = (*blist);
 	get = getcwd(NULL, 0);
 	str = ft_strjoin("OLDPWD=", get);
-	ft_lstadd_back_export(env_list, str);
+	ft_lstadd_back_export(env_list, str, 1);
 	free(str);
 	free(get);
 	if (chdir(read->next->args) != 0)
 	{
+		g_struct.exit_status = 1;
 		if (!read->next->args)
 			return (0);
-		printf("Minishell: cd: %s: No such file or directory\n",
-			read->next->args);
+		errorcmd(read->next->args, 5);
 		return (0);
 	}
 	get = getcwd(NULL, 0);
 	str = ft_strjoin("PWD=", get);
-	ft_lstadd_back_export(env_list, str);
+	ft_lstadd_back_export(env_list, str, 1);
 	free(str);
 	free(get);
+	g_struct.exit_status = 0;
 	return (0);
 }

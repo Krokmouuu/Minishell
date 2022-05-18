@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:33:56 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:18 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/16 19:05:00 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	whitespace(char *str)
 	int	i;
 
 	i = 0;
+	g_struct.doublequote = 0;
 	while ((str[i] == ' ' || str[i] == '\t' || str[i] == '\n') && str[i])
 		i++;
 	return (i);
@@ -52,7 +53,7 @@ int	double_quote(t_token *temp, char *str)
 	j = 0;
 	i = lenwithoutquote(str);
 	test = ft_calloc(i + 1, 1);
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
 		while (str[i] == SQUOTE && str[i])
@@ -81,7 +82,7 @@ int	single_quote(t_token *temp, char *str)
 	j = 0;
 	i = lenwithoutquote(str);
 	test = ft_calloc(i + 1, 1);
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
 		while (str[i] == DQUOTE && str[i])

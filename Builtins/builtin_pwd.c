@@ -19,6 +19,7 @@ int	pwd_command(t_token **blist, t_env **env)
 
 	if ((*blist)->next->next != NULL)
 	{
+		g_struct.exit_status = 1;
 		printf("pwd: too many arguments\n");
 		return (0);
 	}
@@ -26,5 +27,6 @@ int	pwd_command(t_token **blist, t_env **env)
 	read = (*env);
 	printf("%s\n", pwd);
 	free(pwd);
+	g_struct.exit_status = 0;
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 16:53:35 by bleroy            #+#    #+#              #
-#    Updated: 2022/05/05 19:14:34 by bleroy           ###   ########.fr        #
+#    Updated: 2022/05/17 14:27:44 by bleroy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,13 +38,18 @@ _IWHITE=$'\x1b[47m
 
 SRCS = Core/minishell.c \
 	   Core/prompt.c \
+	   Core/errors.c \
+	   Core/here_doc.c \
 	   Parse/redirection.c \
 	   Parse/lexing.c \
+	   Parse/redirect.c \
 	   Parse/splitcmd.c \
 	   Helpers/helpers.c \
 	   Helpers/helpers2.c \
 	   Helpers/helpers3.c \
 	   Utils/ft_putstr.c \
+	   Utils/ft_putnbr.c \
+	   Utils/ft_putendl.c \
 	   Utils/ft_strjoin.c \
 	   Utils/ft_strjoin_exec.c \
 	   Utils/ft_strnstr.c \
@@ -56,6 +61,7 @@ SRCS = Core/minishell.c \
 	   Utils/ft_split.c \
 	   Utils/ft_strtrim.c \
 	   Utils/ft_strcmp.c \
+	   Utils/ft_strncmp.c \
 	   Utils/list_utils.c \
 	   Utils/list_free.c \
 	   Execution/exec_cmd.c \
@@ -72,6 +78,7 @@ SRCS = Core/minishell.c \
 	   Builtins/echo_command_redirect.c \
 	   Builtins/builtin_unset.c \
 	   Builtins/builtin_utils_echo.c \
+	   Builtins/builtin_utils_echo_two.c \
 
 OBJS = ${SRCS:.c=.o}
 

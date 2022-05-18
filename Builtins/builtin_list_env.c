@@ -6,24 +6,39 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 19:50:28 by ple-berr          #+#    #+#             */
-/*   Updated: 2022/04/29 18:55:01 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/09 12:05:26 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
 
-int	check_path(t_env **read)
+int	print_list_env_v2(t_env **read, t_token *blist)
 {
 	t_env	*list;
 
 	list = (*read);
-	while (list->next != NULL)
+	if (blist->args == NULL)
 	{
-		if (get_builtin(list->next->str, "PATH") == 0)
-			return (0);
-		list = list->next;
+		if (check_path(read) != 0)
+			return (-1);
+		if (list->next != NULL)
+			list = list->next;
+		while (list)
+		{
+			if (list->str != NULL)
+				printf("declare -x ");
+			if (list->str != NULL)
+				printf("%s", list->str);
+			if (list->equal != NULL)
+				printf("%s", list->equal);
+			if (list->value != NULL)
+				printf("%s", list->value);
+			printf("\n");
+			list = list->next;
+		}
 	}
-	return (1);
+	g_struct.exit_status = 0;
+	return (0);
 }
 
 int	print_list_env(t_env **read)
@@ -33,6 +48,8 @@ int	print_list_env(t_env **read)
 	list = (*read);
 	if (check_path(read) != 0)
 		return (-1);
+	if (list->next != NULL)
+		list = list->next;
 	while (list)
 	{
 		if (list->str != NULL)
@@ -44,6 +61,7 @@ int	print_list_env(t_env **read)
 		printf("\n");
 		list = list->next;
 	}
+	g_struct.exit_status = 0;
 	return (0);
 }
 

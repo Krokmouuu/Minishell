@@ -6,7 +6,7 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:02:15 by bleroy            #+#    #+#             */
-/*   Updated: 2022/05/05 16:14:22 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/06 14:25:03 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	ft_execve2(t_token **list, t_env **env_list, char **env, int *fd)
 	return (errorcmd2((*list)->args, 2, fd));
 }
 
-// GERER $ls COMMANDE DANS VARIABLE D'ENVIRONNEMENT
 void	process_one2(t_token **list, t_env **env_list, char **env, int *fd)
 {
 	ft_execve2(list, env_list, env, fd);

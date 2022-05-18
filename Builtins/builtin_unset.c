@@ -12,6 +12,20 @@
 
 #include "../Core/minishell.h"
 
+int	reset_status(void)
+{
+	g_struct.exit_status = 0;
+	return (0);
+}
+
+void	unset_free(t_env *env)
+{
+	free(env->str);
+	free(env->equal);
+	free(env->value);
+	free(env);
+}
+
 int	unset_command(t_token **blist, t_env **env_list)
 {
 	t_env	*env;
@@ -23,18 +37,20 @@ int	unset_command(t_token **blist, t_env **env_list)
 	temp_env = env;
 	if (list->next != NULL)
 		list = list->next;
-	while ((ft_strcmp(env->str, list->args) != 0) && env->next)
+	while (list->next != NULL)
 	{
-		temp_env = env;
-		env = env->next;
+		while ((ft_strcmp(env->str, list->args) != 0) && env->next)
+		{
+			temp_env = env;
+			env = env->next;
+		}
+		if (ft_strcmp(env->str, list->args) == 0)
+		{
+			temp_env->next = env->next;
+			unset_free(env);
+		}
+		env = (*env_list);
+		list = list->next;
 	}
-	if (ft_strcmp(env->str, list->args) == 0)
-	{
-		temp_env->next = env->next;
-		free(env->str);
-		free(env->equal);
-		free(env->value);
-		free(env);
-	}
-	return (0);
+	return (reset_status());
 }

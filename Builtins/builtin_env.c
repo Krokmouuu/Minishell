@@ -6,11 +6,25 @@
 /*   By: bleroy <bleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 16:44:39 by bleroy            #+#    #+#             */
-/*   Updated: 2022/04/29 18:54:53 by bleroy           ###   ########.fr       */
+/*   Updated: 2022/05/06 12:30:09 by bleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Core/minishell.h"
+
+int	check_path(t_env **read)
+{
+	t_env	*list;
+
+	list = (*read);
+	while (list->next != NULL)
+	{
+		if (get_builtin(list->next->str, "PATH") == 0)
+			return (0);
+		list = list->next;
+	}
+	return (1);
+}
 
 void	init_env(t_env **env_list)
 {
@@ -47,4 +61,3 @@ void	env_command(t_env **env_list, char **env)
 	init_env(env_list);
 	fill_env_list(env, env_list);
 }
-//IF PATH UNSET -> ENV NOT WORKING ANYMORE
